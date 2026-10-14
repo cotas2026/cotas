@@ -38,11 +38,12 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 #map{height:100%;min-height:420px}
 .pin{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8.5px;border:3px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.35)}
 .pin-ad{background:var(--ad)}.pin-tx{background:var(--tx)}
-.napmk{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);background:var(--nap)}
-.agg{border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);background:radial-gradient(circle at 35% 30%,#22c55e,var(--nap));cursor:pointer}
+.napmk{width:15px;height:15px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);background:var(--nap)}
+.agg{border-radius:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);background:var(--nap);cursor:pointer}
 .agg b{font-size:15px;line-height:1}.agg span{font-size:8.5px;font-weight:700;opacity:.95}
 .mk{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.25);background:#fff}
-.mk-ad{border:2px solid var(--ad)}.mk-tx{border:2px solid var(--tx)}.mk-nap{border:2px solid var(--nap)}
+.mk-ad{border:2px solid var(--ad)}.mk-tx{border:2px solid var(--tx)}.mk-nap{border:2px solid var(--nap);border-radius:22%}
+.sq{display:inline-block;width:12px;height:12px;border-radius:3px;background:var(--nap);border:2px solid #fff;box-shadow:0 0 0 1px #cbd5e1;margin-right:7px;vertical-align:middle}
 .pop{font-family:Inter,Arial;min-width:230px}.pop h3{margin:0 0 2px;font-size:14px}.pop .cli{font-size:12px;color:#334155;margin-bottom:6px}
 .pop .tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;padding:2px 8px;border-radius:999px;color:#fff;margin-bottom:6px}
 .pop table{font-size:11.5px}.foot{margin-top:6px;font-size:10.5px;color:var(--mut)}
@@ -99,7 +100,7 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <div class='row2'><button class='b-ghost' onclick="togglePanel()">⇔ Contraer panel</button><button class='b-ghost' onclick="toggleDetails(true)">▾ Abrir lista</button></div>
 <div id='res'>Vista NAP: 383 círculos verdes. Acercá para expandir en AD/TX.</div>
 </div>
-<div class='legend'><b>Leyenda</b><br><span class='dot' style='background:#ea580c'></span><b>PARAGUA</b> · 96 NAPs<br><span class='dot' style='background:#7c3aed'></span><b>HAMACAS</b> · 129 NAPs<br><span class='dot' style='background:#0284c7'></span><b>BOLIVAR</b> · 75 NAPs<br><span class='dot' style='background:#16a34a'></span><b>GRIGOTA</b> · 80 NAPs<br><span class='dot' style='background:#64748b'></span><b>OTROS</b> · 3 NAPs<br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul (al acercar)<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo (al acercar)<br><span class='ln'></span>línea contrato → su NAP</div>
+<div class='legend'><b>Leyenda</b><br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul (al acercar)<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo (al acercar)<br><span class='sq'></span><b>NAP</b> — cuadrado verde, todas las zonas<br><b>PARAGUA</b> · 96 NAPs<br><b>HAMACAS</b> · 129 NAPs<br><b>BOLIVAR</b> · 75 NAPs<br><b>GRIGOTA</b> · 80 NAPs<br><b>OTROS</b> · 3 NAPs<br><span class='ln'></span>línea contrato → su NAP</div>
 <details id='det'><summary>⚠ 6 contratos sin coordenadas</summary>
 <table><tr><th>Contrato</th><th>Cliente</th><th>Cod</th><th>T</th></tr><tr><td><b>TX003549</b></td><td>GOBIERNO AUTONOMO MUNICIPAL DE SANTA CRUZ</td><td>111464</td><td>TX</td></tr><tr><td><b>TX002892</b></td><td>BISA SEGUROS Y REASEGUROS SA</td><td>215894</td><td>TX</td></tr><tr><td><b>AD118883</b></td><td>DAVID IVER SORIA  RUIZ</td><td>133040</td><td>AD</td></tr><tr><td><b>AD252553</b></td><td>LIMBERG LOPEZ HUANCA</td><td>512658</td><td>AD</td></tr><tr><td><b>AD252897</b></td><td>MARCOS ANTONIO ADORNO HEREDIA</td><td>433206</td><td>AD</td></tr><tr><td><b>TX002138</b></td><td>BANCO MERCANTIL SANTA CRUZ</td><td>286234</td><td>TX</td></tr></table></details>
 </aside>
@@ -115,7 +116,7 @@ const map=L.map('map',{zoomControl:true}).setView([-17.78,-63.18],12);
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri'}).addTo(map);
 L.control.scale({position:'bottomleft'}).addTo(map);
 function iconC(t){return L.divIcon({className:'',html:`<div class='pin ${t==='AD'?'pin-ad':'pin-tx'}'><span>${t}</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-12]});}
-function iconN(zc){return L.divIcon({className:'',html:`<div class='napmk' style='background:${zc||NAP}'>N</div>`,iconSize:[15,15],iconAnchor:[7,7],popupAnchor:[0,-8]});}
+function iconN(){return L.divIcon({className:'',html:`<div class='napmk'>N</div>`,iconSize:[15,15],iconAnchor:[7,7],popupAnchor:[0,-8]});}
 function mkIcon(cls){return function(cl){const n=cl.getChildCount();return L.divIcon({className:'',html:`<div class='mk ${cls}'>${n}</div>`,iconSize:[40,40]});};}
 const cAD=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,iconCreateFunction:mkIcon('mk-ad')});
 const cTX=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,iconCreateFunction:mkIcon('mk-tx')});
@@ -131,8 +132,8 @@ for(const p of DATA){
 }
 const allNap=[];
 for(const n of NAPS){
- const m=L.marker([n.la,n.lo],{icon:iconN(n.zc),title:`${n.z} ${n.s} (${n.n}) · ${n.k} contratos`});
- m.bindPopup(`<div class='pop'><span class='tag' style='background:${n.zc}'>${n.z}</span><h3>${n.s}</h3><div class='cli'>${n.n} · ${n.k} contratos (AD ${n.ad} + TX ${n.tx})</div><div class='mlist' data-nap="${n.n}"></div></div>`);
+ const m=L.marker([n.la,n.lo],{icon:iconN(),title:`${n.z} ${n.s} (${n.n}) · ${n.k} contratos`});
+ m.bindPopup(`<div class='pop'><span class='tag' style='background:${NAP}'>NAP · ${n.z}</span><h3>${n.s}</h3><div class='cli'>${n.n} · ${n.k} contratos (AD ${n.ad} + TX ${n.tx})</div><div class='mlist' data-nap="${n.n}"></div></div>`);
  m._nap=n;cNAP.addLayer(m);allNap.push(m);napByName[n.n]=m;
 }
 const ZT=14;
@@ -144,8 +145,8 @@ const allAgg=[];
 for(const n of NAPS){
  if(!n.k)continue;
  const s=aggSize(n.k);
- const m=L.marker([n.la,n.lo],{icon:L.divIcon({className:'',html:`<div class='agg' style='width:${s}px;height:${s}px;background:${n.zc}'><b>${n.k}</b><span>${n.ix}</span></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]}),title:`${n.z} ${n.s} (${n.n}) · ${n.k} contratos`});
- m.bindPopup(`<div class='pop'><span class='tag' style='background:${n.zc}'>${n.z} · ${n.s}</span><h3>${n.n}</h3><div class='cli'>${n.k} contratos (AD ${n.ad} + TX ${n.tx}) — clic en un contrato para ubicarlo</div><div class='mlist' data-nap="${n.n}"></div><div class='foot'><a href='#' onclick="zoomToNap('${n.n}');return false;">▶ Expandir en el mapa ↗</a></div></div>`);
+ const m=L.marker([n.la,n.lo],{icon:L.divIcon({className:'',html:`<div class='agg' style='width:${s}px;height:${s}px'><b>${n.k}</b><span>${n.ix}</span></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]}),title:`${n.z} ${n.s} (${n.n}) · ${n.k} contratos`});
+ m.bindPopup(`<div class='pop'><span class='tag' style='background:${NAP}'>NAP · ${n.z} · ${n.s}</span><h3>${n.n}</h3><div class='cli'>${n.k} contratos (AD ${n.ad} + TX ${n.tx}) — clic en un contrato para ubicarlo</div><div class='mlist' data-nap="${n.n}"></div><div class='foot'><a href='#' onclick="zoomToNap('${n.n}');return false;">▶ Expandir en el mapa ↗</a></div></div>`);
  m._nap=n;allAgg.push(m);
 }
 function zoomToNap(nm){const m=napByName[nm];if(!m)return;map.flyTo(m.getLatLng(),15,{duration:.9});}
