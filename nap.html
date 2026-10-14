@@ -204,7 +204,7 @@ function draw(){
  const ln=allNap.filter(passN);
  if(napsOn){ln.forEach(m=>cNAP.addLayer(m));map.addLayer(cNAP);}
  if(linesOn){for(const m of lc){const p=m._rec;const nm=napByName[p.nap];
-   if(nm&&napsOn){gLines.addLayer(L.polyline([[p.la,p.lo],[nm.getLatLng().lat,nm.getLatLng().lng]],{color:NAP,weight:1,opacity:.45}));}}
+   if(nm&&napsOn){gLines.addLayer(L.polyline([[p.la,p.lo],[nm.getLatLng().lat,nm.getLatLng().lng]],{color:NAP,weight:2,opacity:.55}));}}
   map.addLayer(gLines);}
  res.textContent=`Vista contratos: ${lc.length} (AD/TX expandidos)`+(napsOn?` + ${ln.length} NAPs`:'')+(clustered?' · agrupados':'')+(linesOn?' · líneas ON':' · líneas OFF')+(q.value.trim()?` · “${q.value.trim()}”`:'')+'. Aleja para volver a NAPs.';
  syncBtns();return {lc,ln,la:[]};}
