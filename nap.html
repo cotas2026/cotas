@@ -38,7 +38,7 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 #map{height:100%;min-height:420px}
 .pin{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8.5px;border:3px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.35)}
 .pin-ad{background:var(--ad)}.pin-tx{background:var(--tx)}
-.nap{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);background:var(--nap)}
+.napmk{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);background:var(--nap)}
 .agg{border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);background:radial-gradient(circle at 35% 30%,#22c55e,var(--nap));cursor:pointer}
 .agg b{font-size:15px;line-height:1}.agg span{font-size:8.5px;font-weight:700;opacity:.95}
 .mk{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.25);background:#fff}
@@ -119,7 +119,7 @@ const map=L.map('map',{zoomControl:true}).setView([-17.78,-63.18],12);
 L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri'}).addTo(map);
 L.control.scale({position:'bottomleft'}).addTo(map);
 function iconC(t){return L.divIcon({className:'',html:`<div class='pin ${t==='AD'?'pin-ad':'pin-tx'}'><span>${t}</span></div>`,iconSize:[22,22],iconAnchor:[11,11],popupAnchor:[0,-12]});}
-function iconN(zc){return L.divIcon({className:'',html:`<div class='nap' style='background:${zc||NAP}'>N</div>`,iconSize:[15,15],iconAnchor:[7,7],popupAnchor:[0,-8]});}
+function iconN(zc){return L.divIcon({className:'',html:`<div class='napmk' style='background:${zc||NAP}'>N</div>`,iconSize:[15,15],iconAnchor:[7,7],popupAnchor:[0,-8]});}
 function mkIcon(cls){return function(cl){const n=cl.getChildCount();return L.divIcon({className:'',html:`<div class='mk ${cls}'>${n}</div>`,iconSize:[40,40]});};}
 const cAD=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,iconCreateFunction:mkIcon('mk-ad')});
 const cTX=L.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,iconCreateFunction:mkIcon('mk-tx')});
