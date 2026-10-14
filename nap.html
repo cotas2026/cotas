@@ -39,6 +39,8 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 .pin{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8.5px;border:3px solid #fff;box-shadow:0 2px 7px rgba(0,0,0,.35)}
 .pin-ad{background:var(--ad)}.pin-tx{background:var(--tx)}
 .nap{width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:8px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);background:var(--nap)}
+.agg{border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.4);background:radial-gradient(circle at 35% 30%,#22c55e,var(--nap));cursor:pointer}
+.agg b{font-size:15px;line-height:1}.agg span{font-size:8.5px;font-weight:700;opacity:.95}
 .mk{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.25);background:#fff}
 .mk-ad{border:2px solid var(--ad)}.mk-tx{border:2px solid var(--tx)}.mk-nap{border:2px solid var(--nap)}
 .pop{font-family:Inter,Arial;min-width:230px}.pop h3{margin:0 0 2px;font-size:14px}.pop .cli{font-size:12px;color:#334155;margin-bottom:6px}
@@ -62,7 +64,7 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <div class='badges'>
 <span class='badge'>Círculo azul AD · 330</span>
 <span class='badge'>Círculo rojo TX · 348</span>
-<span class='badge'>Círculo verde NAP · 1212</span>
+<span class='badge'>Círculo verde NAP · 383 (con contratos)</span>
 <span class='badge'>Dist. mediana 145 m · ≤200m 64.3%</span>
 <span class='badge'>📅 14/10/2026</span>
 </div>
@@ -92,9 +94,9 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <div class='row2'><button class='b-ghost' onclick="expandAll()">⊕ Expandir todo</button><button class='b-ghost' onclick="collapseAll()">⊖ Contraer todo</button></div>
 <div class='row2'><button class='b-ghost on' id='bLines' onclick="toggleLines()">━ Líneas ON</button><button class='b-ghost on' id='bNaps' onclick="toggleNaps()">● NAPs ON</button></div>
 <div class='row2'><button class='b-ghost' onclick="togglePanel()">⇔ Contraer panel</button><button class='b-ghost' onclick="toggleDetails(true)">▾ Abrir lista</button></div>
-<div id='res'>Mostrando 678 contratos + 1212 NAPs.</div>
+<div id='res'>Vista NAP: 383 círculos verdes. Acercá para expandir en AD/TX.</div>
 </div>
-<div class='legend'><b>Leyenda (todo círculos)</b><br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo<br><span class='dot' style='background:var(--nap)'></span><b>NAP</b> — círculo verde (más pequeño)<br><span class='ln'></span>línea contrato → NAP (mismos metros en popup)<br><span style='color:var(--mut);font-size:11px'>Clic en un círculo para ver su ficha.</span></div>
+<div class='legend'><b>Leyenda (todo círculos)</b><br><span class='dot' style='background:var(--nap)'></span><b>NAP</b> — círculo verde: integra sus AD+TX (vista alejada)<br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul (al acercar)<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo (al acercar)<br><span class='ln'></span>línea contrato → su NAP<br><span style='color:var(--mut);font-size:11px'>Alejado ves NAPs. Acercá (zoom 14+) o hacé clic en una NAP y se expande en sus AD/TX.</span></div>
 <details id='det'><summary>⚠ 6 contratos sin coordenadas</summary>
 <table><tr><th>Contrato</th><th>Cliente</th><th>Cod</th><th>T</th></tr><tr><td><b>TX003549</b></td><td>GOBIERNO AUTONOMO MUNICIPAL DE SANTA CRUZ</td><td>111464</td><td>TX</td></tr><tr><td><b>TX002892</b></td><td>BISA SEGUROS Y REASEGUROS SA</td><td>215894</td><td>TX</td></tr><tr><td><b>AD118883</b></td><td>DAVID IVER SORIA  RUIZ</td><td>133040</td><td>AD</td></tr><tr><td><b>AD252553</b></td><td>LIMBERG LOPEZ HUANCA</td><td>512658</td><td>AD</td></tr><tr><td><b>AD252897</b></td><td>MARCOS ANTONIO ADORNO HEREDIA</td><td>433206</td><td>AD</td></tr><tr><td><b>TX002138</b></td><td>BANCO MERCANTIL SANTA CRUZ</td><td>286234</td><td>TX</td></tr></table></details>
 </aside>
@@ -130,6 +132,20 @@ for(const n of NAPS){
  m.bindPopup(`<div class='pop'><span class='tag' style='background:${NAP}'>NAP · SCZ</span><h3>${n.n}</h3><table><tr><td><b>Asignados</b></td><td>${n.k} contratos</td></tr><tr><td><b>Lat, Lon</b></td><td>${n.la}, ${n.lo}</td></tr></table></div>`);
  m._nap=n;cNAP.addLayer(m);allNap.push(m);napByName[n.n]=m;
 }
+const ZT=14;
+const napContracts={};
+for(const p of DATA){(napContracts[p.nap]=napContracts[p.nap]||[]).push(p);}
+function aggSize(k){return k>=15?52:(k>=6?44:36);}
+const gAgg=L.layerGroup();
+const allAgg=[];
+for(const n of NAPS){
+ if(!n.k)continue;
+ const s=aggSize(n.k);
+ const m=L.marker([n.la,n.lo],{icon:L.divIcon({className:'',html:`<div class='agg' style='width:${s}px;height:${s}px'><b>${n.k}</b><span>${n.n.split('-').slice(-2).join('-')}</span></div>`,iconSize:[s,s],iconAnchor:[s/2,s/2],popupAnchor:[0,-s/2]}),title:n.n+` · ${n.k} contratos`});
+ m.bindPopup(`<div class='pop'><span class='tag' style='background:${NAP}'>NAP · integra AD+TX</span><h3>${n.n}</h3><table><tr><td><b>Contratos</b></td><td>${n.k} en total</td></tr></table><div class='foot'><a href='#' onclick="zoomToNap('${n.n}');return false;">▶ Expandir: ver sus AD/TX ↗</a></div></div>`);
+ m._nap=n;allAgg.push(m);
+}
+function zoomToNap(nm){const m=napByName[nm];if(!m)return;map.flyTo(m.getLatLng(),15,{duration:.9});}
 map.addLayer(cAD);map.addLayer(cTX);map.addLayer(cNAP);
 map.fitBounds(L.latLngBounds(DATA.map(p=>[p.la,p.lo])),{padding:[30,30]});
 const q=document.getElementById('q'),f=document.getElementById('f'),res=document.getElementById('res');
@@ -143,9 +159,22 @@ function passN(m){const s=q.value.trim().toLowerCase();
  if(s&&!(m._nap.n.toLowerCase().includes(s)))return s===''||false;
  if(s)return m._nap.n.toLowerCase().includes(s);
  return true;}
+function passA(m){const s=q.value.trim().toLowerCase(),t=f.value;
+ if(!napsOn)return false;
+ if(s){if(m._nap.n.toLowerCase().includes(s))return true;
+  const lst=napContracts[m._nap.n]||[];
+  return lst.some(p=>(t==='ALL'||p.t===t)&&(p.c.toLowerCase().includes(s)||p.cli.toLowerCase().includes(s)));}
+ return true;}
 function draw(){
- map.removeLayer(cAD);map.removeLayer(cTX);map.removeLayer(cNAP);map.removeLayer(flat);map.removeLayer(gLines);gLines.clearLayers();flat.clearLayers();
- cAD.clearLayers();cTX.clearLayers();cNAP.clearLayers();
+ map.removeLayer(cAD);map.removeLayer(cTX);map.removeLayer(cNAP);map.removeLayer(flat);map.removeLayer(gLines);map.removeLayer(gAgg);
+ gLines.clearLayers();flat.clearLayers();cAD.clearLayers();cTX.clearLayers();cNAP.clearLayers();gAgg.clearLayers();
+ const aggMode=map.getZoom()<ZT;
+ if(aggMode){
+  const la=allAgg.filter(passA);
+  la.forEach(m=>gAgg.addLayer(m));map.addLayer(gAgg);
+  res.textContent=`Vista NAP: ${la.length} círculos verdes (cada uno integra sus AD+TX)`+(q.value.trim()?` · “${q.value.trim()}”`:'')+'. Acercá o hacé clic para expandir.';
+  syncBtns();return {lc:[],ln:[],la};
+ }
  const lc=allMk.filter(passC);
  if(clustered){lc.forEach(m=>{(m._rec.t==='AD'?cAD:cTX).addLayer(m);});
   const t=f.value;if(t==='ALL'||t==='AD')map.addLayer(cAD);if(t==='ALL'||t==='TX')map.addLayer(cTX);}
@@ -153,30 +182,31 @@ function draw(){
  const ln=allNap.filter(passN);
  if(napsOn){ln.forEach(m=>cNAP.addLayer(m));map.addLayer(cNAP);}
  if(linesOn){for(const m of lc){const p=m._rec;const nm=napByName[p.nap];
-   if(nm&&napsOn){gLines.addLayer(L.polyline([[p.la,p.lo],[p.d!==undefined?nm.getLatLng().lat:p.la,p.d!==undefined?nm.getLatLng().lng:p.lo]],{color:NAP,weight:1,opacity:.45}));}}
+   if(nm&&napsOn){gLines.addLayer(L.polyline([[p.la,p.lo],[nm.getLatLng().lat,nm.getLatLng().lng]],{color:NAP,weight:1,opacity:.45}));}}
   map.addLayer(gLines);}
- res.textContent=`Mostrando ${lc.length} contratos + ${napsOn?ln.length:0} NAPs`+(clustered?' · agrupados':' · expandidos')+(linesOn?' · líneas ON':' · líneas OFF')+(q.value.trim()?` · “${q.value.trim()}”`:'')+'.';
+ res.textContent=`Vista contratos: ${lc.length} (AD/TX expandidos)`+(napsOn?` + ${ln.length} NAPs`:'')+(clustered?' · agrupados':'')+(linesOn?' · líneas ON':' · líneas OFF')+(q.value.trim()?` · “${q.value.trim()}”`:'')+'. Aleja para volver a NAPs.';
+ syncBtns();return {lc,ln,la:[]};}
+function syncBtns(){
  const bL=document.getElementById('bLines'),hL=document.getElementById('hbLines');
  if(bL)bL.textContent=linesOn?'━ Líneas ON':'━ Líneas OFF';
  if(hL)hL.textContent=linesOn?'━ Líneas: ON':'━ Líneas: OFF';
- const bN=document.getElementById('bNaps');if(bN)bN.textContent=napsOn?'● NAPs ON':'● NAPs OFF';
- return {lc,ln};
-}
+ const bN=document.getElementById('bNaps');if(bN)bN.textContent=napsOn?'● NAPs ON':'● NAPs OFF';}
 function setF(v){f.value=v;apply();}
 function apply(){
- const {lc,ln}=draw();const s=q.value.trim().toLowerCase();
- if(s){
-  const mc=lc[0];const mn=ln[0];
-  if(mc&&(!mn||mc._rec.c.toLowerCase().includes(s)||mc._rec.cli.toLowerCase().includes(s))){map.flyTo(mc.getLatLng(),15,{duration:.8});setTimeout(()=>mc.openPopup(),900);}
-  else if(mn){map.flyTo(mn.getLatLng(),15,{duration:.8});setTimeout(()=>mn.openPopup(),900);}
- }else if(lc.length){try{const b=L.latLngBounds(lc.map(m=>m.getLatLng()));if(b.isValid())map.flyToBounds(b,{padding:[30,30]});}catch(e){}}
+ draw();const s=q.value.trim().toLowerCase();
+ if(!s)return;
+ const mc=allMk.find(m=>{const p=m._rec;return (p.c.toLowerCase().includes(s)||p.cli.toLowerCase().includes(s))&&(f.value==='ALL'||p.t===f.value);});
+ if(mc){map.flyTo(mc.getLatLng(),15,{duration:.8});setTimeout(()=>{draw();mc.openPopup();},950);return;}
+ const mn=allNap.find(m=>m._nap.n.toLowerCase().includes(s));
+ if(mn){map.flyTo(mn.getLatLng(),14,{duration:.8});}
 }
-function expandAll(){clustered=false;const {lc}=draw();try{const b=L.latLngBounds(lc.map(m=>m.getLatLng()));if(b.isValid())map.flyToBounds(b,{padding:[30,30]});}catch(e){}}
-function collapseAll(){clustered=true;q.value='';f.value='ALL';const {lc}=draw();try{const b=L.latLngBounds(lc.map(m=>m.getLatLng()));if(b.isValid())map.flyToBounds(b,{padding:[30,30]});}catch(e){}}
+function expandAll(){clustered=false;if(map.getZoom()<ZT){map.setZoom(ZT);}else{draw();}}
+function collapseAll(){clustered=true;q.value='';f.value='ALL';try{const b=L.latLngBounds(DATA.map(p=>[p.la,p.lo]));map.flyToBounds(b,{padding:[30,30]});}catch(e){}}
 function toggleLines(){linesOn=!linesOn;draw();}
 function toggleNaps(){napsOn=!napsOn;draw();}
 function togglePanel(){document.getElementById('wrap').classList.toggle('hide-aside');setTimeout(()=>map.invalidateSize(),150);}
 function toggleDetails(o){const d=document.getElementById('det');if(d)d.open=o===true?true:(o===false?false:!d.open);}
 let tb;q.addEventListener('input',()=>{clearTimeout(tb);tb=setTimeout(apply,350);});f.addEventListener('change',apply);
-window.setF=setF;window.expandAll=expandAll;window.collapseAll=collapseAll;window.togglePanel=togglePanel;window.toggleDetails=toggleDetails;window.toggleLines=toggleLines;window.toggleNaps=toggleNaps;
+map.on('zoomend',()=>draw());
+window.setF=setF;window.expandAll=expandAll;window.collapseAll=collapseAll;window.togglePanel=togglePanel;window.toggleDetails=toggleDetails;window.toggleLines=toggleLines;window.toggleNaps=toggleNaps;window.zoomToNap=zoomToNap;
 </script></body></html>
