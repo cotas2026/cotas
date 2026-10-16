@@ -50,6 +50,10 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 .headbtns{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
 .headbtns button{flex:none;padding:7px 12px;border-radius:999px;font-size:11.5px;background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35)}
 .headbtns button:hover{background:rgba(255,255,255,.28)}
+.hb-g{background:#16a34a !important;border-color:#16a34a !important}
+.hb-v{background:#7c3aed !important;border-color:#7c3aed !important}
+.hb-o{background:#ea580c !important;border-color:#ea580c !important}
+.hb-d{background:#0f172a !important;border-color:#475569 !important}
 .wrap.hide-aside{grid-template-columns:1fr !important}
 .wrap.hide-aside aside{display:none}
 #showPanel{position:absolute;z-index:800;top:10px;left:10px;display:none;padding:7px 11px;border-radius:999px;font-size:11.5px;font-weight:700;background:#0f172a;color:#fff;border:0;box-shadow:0 2px 8px rgba(0,0,0,.25);cursor:pointer}
@@ -75,12 +79,12 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <button onclick="togglePanel()">⇔ Panel</button>
 <button onclick="expandAll()">⊕ Expandir todo</button>
 <button onclick="collapseAll()">⊖ Contraer todo</button>
-<button id='hbLines' onclick="toggleLines()">━ Líneas: ON</button>
-<button onclick="toggleNaps()">● NAPs: ON</button>
+<button id='hbLines' class='hb-g' onclick="toggleLines()">━ Líneas: ON</button>
+<button class='hb-d' onclick="toggleNaps()">● NAPs: ON</button>
 <button onclick="setNT('ALL')">▦ Todas</button>
-<button onclick="setNT('EXTERNA')">▦ Externas</button>
-<button onclick="setNT('INTERNA')">▦ Internas</button>
-<button onclick="setNT('OTROS')">▦ Otros</button>
+<button class='hb-g' onclick="setNT('EXTERNA')">▦ Externas</button>
+<button class='hb-v' onclick="setNT('INTERNA')">▦ Internas</button>
+<button class='hb-o' onclick="setNT('OTROS')">▦ Otros</button>
 </div></header>
 <div class='wrap' id='wrap'>
 <aside>
