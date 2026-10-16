@@ -94,17 +94,17 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <label>Zona NAP</label>
 <select id='z'><option value='ALL'>Todas las zonas</option><option value='PARAGUA'>PARAGUA · 96 NAPs</option><option value='HAMACAS'>HAMACAS · 92 NAPs</option><option value='BOLIVAR'>BOLIVAR · 75 NAPs</option><option value='GRIGOTA'>GRIGOTA · 80 NAPs</option><option value='OTROS'>OTROS · 3 NAPs</option></select>
 <label>Tipo NAP</label>
-<select id='nt'><option value='ALL'>Todos los tipos</option><option value='EXTERNA'>Externas · 265 NAPs</option><option value='INTERNA'>Internas · 3 NAPs</option><option value='OTROS'>Otross · 78 NAPs</option></select>
+<select id='nt'><option value='ALL'>Todos los tipos</option><option value='EXTERNA'>Externas · 265 NAPs</option><option value='INTERNA'>Internas · 3 NAPs</option><option value='OTROS'>Otros · 78 NAPs</option></select>
 <label>Mín. contratos por NAP</label>
 <select id='k'><option value='1'>1+ (todas)</option><option value='2'>2+</option><option value='3'>3+</option><option value='5'>5+</option><option value='10'>10+</option><option value='15'>15+</option></select>
 <div class='btns'><button class='b-all' onclick="setF('ALL')">Todo</button><button class='b-ad' onclick="setF('AD')">AD</button><button class='b-tx' onclick="setF('TX')">TX</button></div>
 <div class='row2'><button class='b-ghost' onclick="expandAll()">⊕ Expandir todo</button><button class='b-ghost' onclick="collapseAll()">⊖ Contraer todo</button></div>
 <div class='row2'><button class='b-ghost on' id='bLines' onclick="toggleLines()">━ Líneas ON</button><button class='b-ghost on' id='bNaps' onclick="toggleNaps()">● NAPs ON</button></div>
 <div class='row2'><button class='b-ghost' onclick="togglePanel()">⇔ Contraer panel</button><button class='b-ghost' onclick="toggleDetails(true)">▾ Abrir lista</button></div>
-<div id='res'>Vista NAP: 346 cuadrados verdes. Acercá para expandir en AD/TX.</div>
+<div id='res'>Vista NAP: 346 cuadrados. Acercá para expandir en AD/TX.</div>
 </div>
-<div class='legend'><b>Leyenda</b><br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul (al acercar)<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo (al acercar)<br><b>NAP por tipo:</b><br><span class='sq' style='background:#16a34a'></span><b>Externas</b> · 265 NAPs<br><span class='sq' style='background:#7c3aed'></span><b>Internas</b> · 3 NAPs<br><span class='sq' style='background:#ea580c'></span><b>Otross</b> · 78 NAPs<br><b>NAP por zona:</b><br><b>PARAGUA</b> · 96 NAPs<br><b>HAMACAS</b> · 92 NAPs<br><b>BOLIVAR</b> · 75 NAPs<br><b>GRIGOTA</b> · 80 NAPs<br><b>OTROS</b> · 3 NAPs<br><span class='ln'></span>línea contrato → su NAP</div>
-<details id='det'><summary>⚠ 0 contratos sin coordenadas</summary>
+<div class='legend'><b>Leyenda</b><br><span class='dot' style='background:var(--ad)'></span><b>AD</b> — círculo azul (al acercar)<br><span class='dot' style='background:var(--tx)'></span><b>TX</b> — círculo rojo (al acercar)<br><b>NAP por tipo:</b><br><span class='sq' style='background:#16a34a'></span><b>Externas</b> · 265 NAPs<br><span class='sq' style='background:#7c3aed'></span><b>Internas</b> · 3 NAPs<br><span class='sq' style='background:#ea580c'></span><b>Otros</b> · 78 NAPs<br><b>NAP por zona:</b><br><b>PARAGUA</b> · 96 NAPs<br><b>HAMACAS</b> · 92 NAPs<br><b>BOLIVAR</b> · 75 NAPs<br><b>GRIGOTA</b> · 80 NAPs<br><b>OTROS</b> · 3 NAPs<br><span class='ln'></span>línea contrato → su NAP</div>
+<details id='det' hidden><summary>⚠ 0 contratos sin coordenadas</summary>
 <table><tr><th>Contrato</th><th>Cliente</th><th>Cod</th><th>T</th></tr></table></details>
 </aside>
 <div style='position:relative;min-height:420px'><div id='map'></div><button id='showPanel' onclick="togglePanel()">☰ Mostrar panel</button></div>
@@ -200,7 +200,7 @@ function draw(){
  if(aggMode){
   const la=allAgg.filter(passA);
   la.forEach(m=>gAgg.addLayer(m));map.addLayer(gAgg);
-  res.textContent=`Vista NAP: ${la.length} cuadrados verdes (cada uno integra sus AD+TX)`+(q.value.trim()?` · “${q.value.trim()}”`:'')+'. Acercá o hacé clic para expandir.';
+  res.textContent=`Vista NAP: ${la.length} cuadrados (cada uno integra sus AD+TX)`+(q.value.trim()?` · “${q.value.trim()}”`:'')+'. Acercá o hacé clic para expandir.';
   syncBtns();return {lc:[],ln:[],la};
  }
  const lc=allMk.filter(passC);
