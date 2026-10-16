@@ -77,6 +77,10 @@ table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:8px}td,th{
 <button onclick="collapseAll()">⊖ Contraer todo</button>
 <button id='hbLines' onclick="toggleLines()">━ Líneas: ON</button>
 <button onclick="toggleNaps()">● NAPs: ON</button>
+<button onclick="setNT('ALL')">▦ Todas</button>
+<button onclick="setNT('EXTERNA')">▦ Externas</button>
+<button onclick="setNT('INTERNA')">▦ Internas</button>
+<button onclick="setNT('OTROS')">▦ Otros</button>
 </div></header>
 <div class='wrap' id='wrap'>
 <aside>
@@ -220,6 +224,7 @@ function syncBtns(){
  if(hL)hL.textContent=linesOn?'━ Líneas: ON':'━ Líneas: OFF';
  const bN=document.getElementById('bNaps');if(bN)bN.textContent=napsOn?'● NAPs ON':'● NAPs OFF';}
 function setF(v){f.value=v;apply();}
+function setNT(v){nt.value=v;apply();}
 function apply(){
  draw();const s=q.value.trim().toLowerCase();
  if(!s)return;
@@ -236,5 +241,5 @@ function togglePanel(){document.getElementById('wrap').classList.toggle('hide-as
 function toggleDetails(o){const d=document.getElementById('det');if(d)d.open=o===true?true:(o===false?false:!d.open);}
 let tb;q.addEventListener('input',()=>{clearTimeout(tb);tb=setTimeout(apply,350);});f.addEventListener('change',apply);zs.addEventListener('change',apply);nt.addEventListener('change',apply);ks.addEventListener('change',apply);
 map.on('zoomend',()=>draw());
-window.setF=setF;window.expandAll=expandAll;window.collapseAll=collapseAll;window.togglePanel=togglePanel;window.toggleDetails=toggleDetails;window.toggleLines=toggleLines;window.toggleNaps=toggleNaps;window.zoomToNap=zoomToNap;window.flyToContract=flyToContract;
+window.setF=setF;window.setNT=setNT;window.expandAll=expandAll;window.collapseAll=collapseAll;window.togglePanel=togglePanel;window.toggleDetails=toggleDetails;window.toggleLines=toggleLines;window.toggleNaps=toggleNaps;window.zoomToNap=zoomToNap;window.flyToContract=flyToContract;
 </script></body></html>
